@@ -1,11 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Cpu, ShieldCheck, HeartHandshake, Zap, ArrowRight } from "lucide-react";
+import { useSEO } from "@/hooks/useSEO";
 
 export const Route = createFileRoute("/about")({
   component: AboutPage,
 });
 
 function AboutPage() {
+  useSEO({
+    title: "About Mistri — The Silicon & Hardware Revolution",
+    description: "Learn about Mistri's mission to democratize verified robotics kits, IoT modules, and open-source electronics for makers.",
+  });
   return (
     <div className="min-h-screen py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-20">
       {/* Hero / Manifesto */}

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { CheckCircle2, Package, Truck, ArrowRight, ShieldCheck, Download } from "lucide-react";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
+import { useSEO } from "@/hooks/useSEO";
 
 export const Route = createFileRoute("/order/$id")({
   component: OrderConfirmationPage,
@@ -9,6 +10,10 @@ export const Route = createFileRoute("/order/$id")({
 
 function OrderConfirmationPage() {
   const { id } = Route.useParams();
+  useSEO({
+    title: `Order ${id} Confirmed | Mistri`,
+    description: "Your hardware order has been successfully processed and allocated for dispatch.",
+  });
   const [orderDetails, setOrderDetails] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 

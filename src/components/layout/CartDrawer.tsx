@@ -10,8 +10,10 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { toast } from "sonner";
 import { useCartStore } from "@/stores/cartStore";
 import { cn } from "@/lib/utils";
+import { validatePromoCode } from "@/lib/stripe";
 
 interface CartDrawerProps {
   open: boolean;
@@ -30,6 +32,7 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
 
   const [promoCode, setPromoCode] = useState("");
   const [promoApplied, setPromoApplied] = useState(false);
+  const [discount, setDiscount] = useState(0);
 
   const freeShippingProgress = Math.min(
     (subtotal / FREE_SHIPPING_THRESHOLD) * 100,
@@ -37,11 +40,18 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
   );
   const freeShippingUnlocked = subtotal >= FREE_SHIPPING_THRESHOLD;
   const shipping = freeShippingUnlocked ? 0 : SHIPPING_COST;
-  const total = subtotal + shipping;
+  const total = Math.max(0, subtotal - discount) + shipping;
 
   const handlePromoApply = () => {
-    // Placeholder — wired in Phase 3
-    if (promoCode.trim()) setPromoApplied(true);
+    if (!promoCode.trim()) return;
+    const result = validatePromoCode(promoCode, subtotal);
+    if (result.valid) {
+      setPromoApplied(true);
+      setDiscount(result.discount);
+      toast.success(result.message);
+    } else {
+      toast.error(result.message);
+    }
   };
 
   return (
@@ -276,6 +286,12 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
                         ${subtotal.toFixed(2)}
                       </span>
                     </div>
+                    {discount > 0 && (
+                      <div className="flex justify-between text-[#A3E635] font-semibold text-xs">
+                        <span>Discount ({promoCode.toUpperCase()})</span>
+                        <span>-${discount.toFixed(2)}</span>
+                      </div>
+                    )}
                     <div className="flex justify-between text-muted-foreground">
                       <span>Shipping</span>
                       <span

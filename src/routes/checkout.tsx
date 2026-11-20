@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { useCartStore } from "@/stores/cartStore";
 import { useAuthStore } from "@/stores/authStore";
 import { createCheckoutSession } from "@/lib/stripe";
+import { useSEO } from "@/hooks/useSEO";
 import { AddressForm } from "@/components/checkout/AddressForm";
 import { ShippingMethodSelector } from "@/components/checkout/ShippingMethodSelector";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
@@ -15,6 +16,10 @@ export const Route = createFileRoute("/checkout")({
 });
 
 function CheckoutPage() {
+  useSEO({
+    title: "Secure Checkout | Mistri",
+    description: "Complete your hardware purchase with encrypted Stripe payment and express global tracking.",
+  });
   const navigate = useNavigate();
   const items = useCartStore((s) => s.items);
   const subtotal = useCartStore((s) => s.subtotal());

@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { useProduct, useProducts } from "@/hooks/useProducts";
+import { useSEO } from "@/hooks/useSEO";
 import { formatPrice } from "@/lib/utils";
 import { useCartStore } from "@/stores/cartStore";
 import { Badge } from "@/components/ui/badge";
@@ -29,6 +30,12 @@ function ProductDetailPage() {
   const navigate = useNavigate();
   const { data: product, isLoading } = useProduct(slug);
   const addItem = useCartStore((s) => s.addItem);
+
+  useSEO({
+    title: product ? `${product.title} | Mistri Hardware` : "Product Details | Mistri",
+    description: product?.description || "Curated electronics and hardware components for makers and engineers.",
+    image: product?.product_images?.[0]?.url,
+  });
 
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);

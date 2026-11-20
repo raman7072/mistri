@@ -3,12 +3,17 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { Lock, Mail, ArrowRight, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
+import { useSEO } from "@/hooks/useSEO";
 
 export const Route = createFileRoute("/reset-password")({
   component: ResetPasswordPage,
 });
 
 function ResetPasswordPage() {
+  useSEO({
+    title: "Reset Password | Mistri",
+    description: "Recover and reset your Mistri account credentials.",
+  });
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");

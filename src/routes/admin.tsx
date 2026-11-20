@@ -11,12 +11,17 @@ import {
 import { SalesDashboard } from "@/components/admin/SalesDashboard";
 import { ProductTable } from "@/components/admin/ProductTable";
 import { ListingWizard } from "@/components/admin/ListingWizard";
+import { useSEO } from "@/hooks/useSEO";
 
 export const Route = createFileRoute("/admin")({
   component: AdminPage,
 });
 
 function AdminPage() {
+  useSEO({
+    title: "Storefront Administration | Mistri",
+    description: "Mistri operations portal: real-time sales metrics, inventory management, and multi-step product listing wizard.",
+  });
   const [activeTab, setActiveTab] = useState<"dashboard" | "inventory" | "add">("dashboard");
 
   return (

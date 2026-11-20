@@ -10,6 +10,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { useAuthStore } from "@/stores/authStore";
+import { useSEO } from "@/hooks/useSEO";
 import { OrderHistory } from "@/components/account/OrderHistory";
 import { WishlistTab } from "@/components/account/WishlistTab";
 import { AddressBook } from "@/components/account/AddressBook";
@@ -20,6 +21,10 @@ export const Route = createFileRoute("/account")({
 });
 
 function AccountPage() {
+  useSEO({
+    title: "Maker Account & Orders | Mistri",
+    description: "Manage your order history, track shipments, view your saved wishlist, and update delivery addresses.",
+  });
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"orders" | "wishlist" | "addresses" | "profile">("orders");
   const user = useAuthStore((s) => s.user);

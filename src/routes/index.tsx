@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useSEO } from "@/hooks/useSEO";
 import { HeroBento } from "@/components/home/HeroBento";
 import { TrustTicker } from "@/components/home/TrustTicker";
 import { CategoryBento } from "@/components/home/CategoryBento";
@@ -13,6 +14,11 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
+  useSEO({
+    title: "Mistri — The Future Runs on Silicon | Robotics, Smart Home & Dev Kits",
+    description: "Curated electronics, robotics kits, IoT rovers, precision tools, and smart home hardware for makers and engineers.",
+  });
+
   return (
     <div className="overflow-x-hidden">
       <HeroBento />

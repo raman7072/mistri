@@ -4,12 +4,17 @@ import { Mail, MapPin, Clock, Send, MessageSquare } from "lucide-react";
 import { toast } from "sonner";
 import { generateTicketId } from "@/lib/utils";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
+import { useSEO } from "@/hooks/useSEO";
 
 export const Route = createFileRoute("/contact")({
   component: ContactPage,
 });
 
 function ContactPage() {
+  useSEO({
+    title: "Contact Support & Inquiries | Mistri Hardware",
+    description: "Reach Mistri hardware engineers for technical specifications, order inquiries, and custom electronics consultation.",
+  });
   const [formData, setFormData] = useState({
     name: "",
     email: "",

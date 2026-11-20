@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Filter, SlidersHorizontal, Search, X } from "lucide-react";
 import { useProducts, useCategories } from "@/hooks/useProducts";
+import { useSEO } from "@/hooks/useSEO";
 import { ProductCard } from "@/components/shop/ProductCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SORT_OPTIONS } from "@/lib/constants";
@@ -11,6 +12,11 @@ export const Route = createFileRoute("/shop")({
 });
 
 function ShopPage() {
+  useSEO({
+    title: "Hardware Catalog & Components | Mistri",
+    description: "Browse 24 curated robotics kits, smart home systems, test equipment, and developer components.",
+  });
+
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSort, setSelectedSort] = useState("created_at:desc");

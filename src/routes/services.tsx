@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Wrench, CircuitBoard, Layers, Users, Send } from "lucide-react";
+import { Wrench, CircuitBoard, Layers, Users, Send, Check, Minus } from "lucide-react";
 import { toast } from "sonner";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
+import { useSEO } from "@/hooks/useSEO";
 
 export const Route = createFileRoute("/services")({
   component: ServicesPage,
@@ -35,7 +36,51 @@ const SERVICES = [
   },
 ];
 
+const COMPARISON_TIERS = [
+  {
+    feature: "Minimum Order Quantity",
+    standard: "1 unit",
+    pro: "5 units",
+    enterprise: "25+ units",
+  },
+  {
+    feature: "Component Sourcing Lead Time",
+    standard: "3–5 days",
+    pro: "24–48 hours",
+    enterprise: "Immediate Priority",
+  },
+  {
+    feature: "Electrical Pinout & Flash Verification",
+    standard: "Basic automated",
+    pro: "Multi-point manual",
+    enterprise: "Full Oscilloscope & Logic Audit",
+  },
+  {
+    feature: "Firmware Flashing & Custom Bootloader",
+    standard: false,
+    pro: true,
+    enterprise: true,
+  },
+  {
+    feature: "Dedicated Hardware Engineer Contact",
+    standard: false,
+    pro: "Slack / Email",
+    enterprise: "24/7 Direct Hotline",
+  },
+  {
+    feature: "Extended Replacement Warranty",
+    standard: "1 Year",
+    pro: "2 Years",
+    enterprise: "3 Years White-Glove",
+  },
+];
+
 function ServicesPage() {
+  useSEO({
+    title: "Engineering Services & Custom Prototyping | Mistri",
+    description: "Custom PCB fabrication, robotic assembly, firmware burning, and bulk institutional component procurement.",
+  });
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -62,14 +107,14 @@ function ServicesPage() {
       });
       setFormData({ name: "", email: "", serviceType: "Custom PCB Prototyping", message: "" });
     } catch {
-      toast.success("Inquiry received!");
+      toast.success("Inquiry received! We will be in touch shortly.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-20">
+    <div className="min-h-screen py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-24">
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto">
         <span className="text-xs uppercase font-bold tracking-widest text-[#A3E635]">
@@ -100,6 +145,61 @@ function ServicesPage() {
             </div>
           );
         })}
+      </div>
+
+      {/* Service Tier Comparison Matrix */}
+      <div className="space-y-6">
+        <div className="text-center max-w-xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl font-bold font-syne text-foreground">
+            Service Tier Comparison
+          </h2>
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1">
+            Flexible engagement models tailored for individuals, labs, and volume manufacturers.
+          </p>
+        </div>
+
+        <div className="rounded-3xl border border-border bg-card overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse text-xs sm:text-sm">
+              <thead>
+                <tr className="border-b border-border bg-muted/40">
+                  <th className="py-4 px-6 font-syne font-bold text-foreground">Capability</th>
+                  <th className="py-4 px-6 font-syne font-bold text-foreground">Maker Standard</th>
+                  <th className="py-4 px-6 font-syne font-bold text-[#A3E635]">Lab Pro</th>
+                  <th className="py-4 px-6 font-syne font-bold text-foreground">Enterprise Custom</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {COMPARISON_TIERS.map((tier, idx) => (
+                  <tr key={idx} className="hover:bg-muted/10 transition-colors">
+                    <td className="py-4 px-6 font-semibold text-foreground">{tier.feature}</td>
+                    <td className="py-4 px-6 text-muted-foreground">
+                      {typeof tier.standard === "boolean" ? (
+                        tier.standard ? <Check className="w-4 h-4 text-[#A3E635]" /> : <Minus className="w-4 h-4 text-muted-foreground/40" />
+                      ) : (
+                        tier.standard
+                      )}
+                    </td>
+                    <td className="py-4 px-6 font-semibold text-foreground bg-[#A3E635]/5">
+                      {typeof tier.pro === "boolean" ? (
+                        tier.pro ? <Check className="w-4 h-4 text-[#A3E635]" /> : <Minus className="w-4 h-4 text-muted-foreground/40" />
+                      ) : (
+                        tier.pro
+                      )}
+                    </td>
+                    <td className="py-4 px-6 text-foreground">
+                      {typeof tier.enterprise === "boolean" ? (
+                        tier.enterprise ? <Check className="w-4 h-4 text-[#A3E635]" /> : <Minus className="w-4 h-4 text-muted-foreground/40" />
+                      ) : (
+                        tier.enterprise
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
       {/* Inquiry Form */}
