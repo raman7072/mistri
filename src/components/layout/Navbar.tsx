@@ -185,7 +185,7 @@ export function Navbar() {
 
             {/* Auth */}
             <Link
-              to={user ? "/account" : "/auth/login"}
+              to={user ? "/account" : "/auth"}
               className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
             >
               {avatarInitials ? (

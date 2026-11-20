@@ -17,6 +17,8 @@ import { useCartStore } from "@/stores/cartStore";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ProductCard } from "@/components/shop/ProductCard";
+import { ReviewsList } from "@/components/product/ReviewsList";
+import { ReviewForm } from "@/components/product/ReviewForm";
 
 export const Route = createFileRoute("/product/$slug")({
   component: ProductDetailPage,
@@ -329,25 +331,15 @@ function ProductDetailPage() {
           )}
 
           {activeTab === "reviews" && (
-            <div className="space-y-6">
-              <div className="flex items-center gap-4 p-4 rounded-xl bg-muted/40">
-                <div className="text-4xl font-extrabold font-syne text-foreground">
-                  {product.avg_rating || 4.9}
-                </div>
-                <div>
-                  <div className="flex text-amber-400">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-current" />
-                    ))}
-                  </div>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Based on verified hardware builder reviews
-                  </p>
-                </div>
+            <div className="space-y-8">
+              <ReviewsList
+                productId={product.id}
+                avgRating={product.avg_rating}
+                totalReviews={product.review_count}
+              />
+              <div className="pt-6 border-t border-border">
+                <ReviewForm productId={product.id} />
               </div>
-              <p className="text-xs text-muted-foreground italic">
-                Only authenticated customers who purchased this SKU can submit reviews.
-              </p>
             </div>
           )}
         </div>

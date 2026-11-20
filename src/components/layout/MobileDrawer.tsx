@@ -171,14 +171,14 @@ export function MobileDrawer({ open, onClose }: MobileDrawerProps) {
               ) : (
                 <div className="space-y-2">
                   <Link
-                    to="/auth/login"
+                    to="/auth"
                     onClick={onClose}
                     className="flex items-center justify-center w-full px-4 py-2.5 rounded-lg text-sm font-semibold bg-[#A3E635] text-black hover:bg-[#A3E635]/90 transition-colors"
                   >
                     Sign In
                   </Link>
                   <Link
-                    to="/auth/register"
+                    to="/auth"
                     onClick={onClose}
                     className="flex items-center justify-center w-full px-4 py-2.5 rounded-lg text-sm font-medium text-foreground border border-border hover:bg-muted transition-colors"
                   >
